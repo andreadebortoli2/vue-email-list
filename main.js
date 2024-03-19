@@ -13,23 +13,31 @@ const { createApp } = Vue
 createApp({
     data() {
         return {
-            emailAddresses: []
+            emailAddresses: [],
         }
     },
     methods: {
+        async generateTenEmailAddresses() {
+            let addressesList = [];
+            for (let i = 0; i < 10; i++) {
+                addressesList.push(axios
+                    .get('https://flynn.boolean.careers/exercises/api/random/mail')
+                    .then((response) => {
+                        // console.log(response.data.response);
+                        let address = response.data.response;
+                        return address;
+                    }));
+            };
+            Promise.all(addressesList).then((addresses) => {
+                // console.log(addressesList);
+                // console.log(addresses);
+                this.emailAddresses = addresses;
+            });
+        },
     },
     created() {
         // console.log(this.emailAddresses);
-        for (let i = 0; i < 10; i++) {
-            axios
-            .get('https://flynn.boolean.careers/exercises/api/random/mail')
-            .then((response) => {
-                // console.log(response.data.response);
-                this.emailAddresses.push(response.data.response);
-            })  
-        }
+        this.generateTenEmailAddresses();
         // console.log(this.emailAddresses);
-    },
-    mounted() {
     },
 }).mount('#app')
