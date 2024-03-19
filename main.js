@@ -17,7 +17,7 @@ createApp({
         }
     },
     methods: {
-        async generateTenEmailAddresses() {
+        generateTenEmailAddresses() {
             let addressesList = [];
             for (let i = 0; i < 10; i++) {
                 addressesList.push(axios
